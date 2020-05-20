@@ -13,7 +13,6 @@ class App extends React.Component {
     editing: false,
   };
 
-  // Tak ma wyglądać funkcja, żeby nie trzeba było bindować
   fetchTask = () => {
     axios.get("http://127.0.0.1:8000/api/task-list").then((res) => {
       console.log(res.data);
@@ -22,9 +21,6 @@ class App extends React.Component {
       });
     });
   };
-
-  // żeby odpalić funkcję fetch task, trzeba dać this.fetchTask().
-  // inaczej nie zadziała, mimo, że nie przyjmuje argumentów to należy użyć ()
   componentDidMount() {
     this.fetchTask();
   }
@@ -48,7 +44,6 @@ class App extends React.Component {
     console.log("Item: ", this.state.activeItem);
 
     let url = "http://127.0.0.1:8000/api/task-create/";
-    // axios.post(url, { headers: { "Content-Type": "application/json" } });
 
     if (this.state.editing) {
       url = `http://127.0.0.1:8000/api/task-update/${this.state.activeItem.id}/`;
@@ -58,12 +53,11 @@ class App extends React.Component {
     }
 
     axios
-      .post(url, this.state.activeItem) //postuje słownika activeItem do backendu
+      .post(url, this.state.activeItem)
       .then((res) => {
         console.log(res);
-        this.fetchTask(); //pobiera listę
+        this.fetchTask();
         this.setState({
-          // resetuje stan activeItem
           activeItem: {
             id: null,
             title: "",
@@ -99,8 +93,7 @@ class App extends React.Component {
     axios
       .post(url, { completed: task.completed, title: task.title })
       .then(() => {
-        this.fetchTask(); //robimy to w then, bo jak damy pod spodem to pamiętaj
-        // że axios działa wolniej, i zrealizuje nam fetch task najpierw
+        this.fetchTask(); 
       });
 
     console.log("Task:", task.completed);
@@ -114,16 +107,13 @@ class App extends React.Component {
             <form id="form" onSubmit={this.handleSubmit}>
               <div className="flex-wrapper">
                 <div style={{ flex: 6 }}>
-                  {/* The flex-grow property specifies how much 
-                the item will grow relative to the rest of the flexible items inside the same container. */}
                   <input
                     onChange={this.handleChange}
                     placeholder="Add task"
                     className="form-control"
                     id="title"
                     name="bry"
-                    value={this.state.activeItem.title} //to nam wyczyści inputa po zatwierdzeniu
-                    // gdy activeItem resetuje swe wartości
+                    value={this.state.activeItem.title} 
                   />
                 </div>
                 <div style={{ flex: 1 }}>
@@ -145,7 +135,6 @@ class App extends React.Component {
                   onClick={() => this.strikeUnstrike(task)}
                   style={{ flex: 7 }}
                 >
-                  {/* tutaj flex 7 a potem oznacza, że ten będzie 7x większy od 1, 14 2 2 zrobi to samo */}
                   {task.completed == false ? (
                     <span>{task.title}</span>
                   ) : (
@@ -155,12 +144,10 @@ class App extends React.Component {
                 <div style={{ flex: 1 }}>
                   <button
                     onClick={() => this.startEdit(task)}
-                    // musimy podać najpierw () bo inaczej odpali nam to od razu i będzie milion errorów
                     className="btn btn-sm btn-outline-info"
                   >
                     Edit
                   </button>
-                  {/* przekazujemy argument task, który mamy w obecnej iteracji */}
                 </div>
                 <div style={{ flex: 1 }}>
                   <button
