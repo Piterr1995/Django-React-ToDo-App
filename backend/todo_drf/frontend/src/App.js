@@ -2,6 +2,9 @@ import React from "react";
 import "./App.css";
 import axios from "axios";
 
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
+
 class App extends React.Component {
   state = {
     todoList: [],
