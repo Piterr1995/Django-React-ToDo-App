@@ -128,3 +128,5 @@ CORS_ORIGIN_WHITELIST = [
 
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontend/build/static")]
+
+CSRF_COOKIE_NAME = "csrftoken"
